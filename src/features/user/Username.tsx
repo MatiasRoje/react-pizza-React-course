@@ -1,10 +1,5 @@
 import { useSelector } from "react-redux";
-
-type UserState = {
-  user: {
-    username: string;
-  };
-};
+import { UserState } from "../../types/user";
 
 function Username() {
   const username = useSelector((state: UserState) => state.user.username);

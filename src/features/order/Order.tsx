@@ -54,7 +54,7 @@ function Order() {
 
       <ul className="divide-stone200 divide-y border-b border-t">
         {cart.map((pizza) => (
-          <OrderItem item={pizza} key={pizza.id} />
+          <OrderItem item={pizza} key={pizza.pizzaId} />
         ))}
       </ul>
 
@@ -70,7 +70,6 @@ function Order() {
         <p className="font-bold">
           To pay on delivery: {formatCurrency(orderPrice + priorityPrice)}
         </p>
-        u
       </div>
     </div>
   );

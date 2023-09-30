@@ -1,11 +1,11 @@
-import { PizzaAPI, PizzaCart } from "./menu";
+import { PizzaCart } from "./menu";
 
 export type Order = {
   id: string;
   customer: string;
   priority: boolean;
   estimatedDelivery: string;
-  cart: PizzaAPI[];
+  cart: PizzaCart[];
   position: string;
   orderPrice: number;
   priorityPrice: number;
@@ -18,4 +18,8 @@ export type OrderPostRequest = {
   address: string;
   cart: PizzaCart[];
   priority: boolean;
+};
+
+export type CartState = {
+  cart: PizzaCart[];
 };
