@@ -39,7 +39,11 @@ export async function createOrder(newOrder: OrderPostRequest) {
   }
 }
 
-export async function updateOrder(id, updateObj) {
+type UpdateOrder = {
+  priority: boolean;
+};
+
+export async function updateOrder(id: number, updateObj: UpdateOrder) {
   try {
     const res = await fetch(`${API_URL}/order/${id}`, {
       method: "PATCH",

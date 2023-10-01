@@ -1,6 +1,6 @@
 // Test ID: IIDSAT
 
-import { LoaderFunction, useLoaderData } from "react-router-dom";
+import { LoaderFunction, useFetcher, useLoaderData } from "react-router-dom";
 import { getOrder } from "../../services/apiRestaurant";
 import {
   calcMinutesLeft,
@@ -9,9 +9,19 @@ import {
 } from "../../utils/helpers";
 import { Order } from "../../types/order";
 import OrderItem from "./OrderItem";
+import { useEffect } from "react";
+import { PizzaAPI } from "../../types/menu";
+import UpdateOrder from "./UpdateOrder";
 
 function Order() {
   const order: Order = useLoaderData() as Order;
+
+  const fetcher = useFetcher();
+
+  useEffect(() => {
+    if (!fetcher.data && fetcher.state === "idle") fetcher.load("/menu");
+  }, [fetcher]);
+
   // Everyone can search for all orders, so for privacy reasons we're gonna gonna exclude names or address, these are only for the restaurant staff
   const {
     id,
@@ -54,7 +64,16 @@ function Order() {
 
       <ul className="divide-stone200 divide-y border-b border-t">
         {cart.map((pizza) => (
-          <OrderItem item={pizza} key={pizza.pizzaId} />
+          <OrderItem
+            item={pizza}
+            key={pizza.pizzaId}
+            ingredients={
+              fetcher?.data?.find(
+                (element: PizzaAPI) => element.id === pizza.pizzaId,
+              )?.ingredients ?? []
+            }
+            isLoadingIngredients={fetcher.state === "loading"}
+          />
         ))}
       </ul>
 
@@ -71,6 +90,8 @@ function Order() {
           To pay on delivery: {formatCurrency(orderPrice + priorityPrice)}
         </p>
       </div>
+
+      {!priority && <UpdateOrder order={order} />}
     </div>
   );
 }
